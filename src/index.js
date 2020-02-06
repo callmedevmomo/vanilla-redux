@@ -1,21 +1,21 @@
+// store your data, state is a data changing in your app
+import { createStore } from "redux";
+
 const plus = document.getElementById("Add");
 const minus = document.getElementById("Minus");
 const number = document.querySelector("span");
 
-let count = 0;
+//reducer is a function that will modify your data.
 
-const updateText = () => {
-  number.innerText = count;
+//magical redux!!
+
+const countModifier = (state = 0) => {
+  //initialize state=0
+  return state;
 };
 
-const handleAdd = () => {
-  count += 1;
-  updateText();
-};
-const handleMinus = () => {
-  count -= 1;
-  updateText();
-};
+const countStore = createStore(countModifier);
 
-plus.addEventListener("click", handleAdd);
-minus.addEventListener("click", handleMinus);
+// we get functions like {dispatch, subscribe, getState, replaceReducer ...}
+console.log(countStore);
+// console.log(countStore.getState());
