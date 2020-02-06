@@ -5,17 +5,16 @@ const plus = document.getElementById("Add");
 const minus = document.getElementById("Minus");
 const number = document.querySelector("span");
 
-//reducer is a function that will modify your data.
-
 //magical redux!!
+number.innerText = 0;
 
-// how do we modify our state ==> answer is action
+//1. modifier with current state and action
+//2. action with dispatch (actions must have type && UpperCase)
+//3. with subscribe we gonna execute functions when our stores changes!
+
 const countModifier = (state = 0, action) => {
-  // console.log(action)
-  // has been called twice {first:initialize, second:"HELLO"}
-  // redux send a message countModifier(currentModifier=0,{type:"HELLO"})
+  //   console.log(state, action);
   if (action.type === "ADD") {
-    console.log(state, action);
     return state + 1;
   } else if (action.type === "MINUS") {
     return state - 1;
@@ -26,12 +25,19 @@ const countModifier = (state = 0, action) => {
 
 const countStore = createStore(countModifier);
 
-//how do we send a action(messages) to countModifier ? :: dispatch
-countStore.dispatch({ type: "ADD" });
-countStore.dispatch({ type: "ADD" });
-countStore.dispatch({ type: "ADD" });
-countStore.dispatch({ type: "ADD" });
-countStore.dispatch({ type: "ADD" });
-countStore.dispatch({ type: "MINUS" });
+const onChange = () => {
+  number.innerText = countStore.getState();
+};
+//countStore.subscribe() allows as to listen for changes in our stores
 
-console.log(countStore.getState());
+countStore.subscribe(onChange);
+
+const handleAdd = () => {
+  countStore.dispatch({ type: "ADD" });
+};
+
+const handleMinus = () => {
+  countStore.dispatch({ type: "MINUS" });
+};
+plus.addEventListener("click", handleAdd);
+minus.addEventListener("click", handleMinus);
