@@ -9,13 +9,29 @@ const number = document.querySelector("span");
 
 //magical redux!!
 
-const countModifier = (state = 0) => {
-  //initialize state=0
-  return state;
+// how do we modify our state ==> answer is action
+const countModifier = (state = 0, action) => {
+  // console.log(action)
+  // has been called twice {first:initialize, second:"HELLO"}
+  // redux send a message countModifier(currentModifier=0,{type:"HELLO"})
+  if (action.type === "ADD") {
+    console.log(state, action);
+    return state + 1;
+  } else if (action.type === "MINUS") {
+    return state - 1;
+  } else {
+    return state;
+  }
 };
 
 const countStore = createStore(countModifier);
 
-// we get functions like {dispatch, subscribe, getState, replaceReducer ...}
-console.log(countStore);
-// console.log(countStore.getState());
+//how do we send a action(messages) to countModifier ? :: dispatch
+countStore.dispatch({ type: "ADD" });
+countStore.dispatch({ type: "ADD" });
+countStore.dispatch({ type: "ADD" });
+countStore.dispatch({ type: "ADD" });
+countStore.dispatch({ type: "ADD" });
+countStore.dispatch({ type: "MINUS" });
+
+console.log(countStore.getState());
