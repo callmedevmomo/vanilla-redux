@@ -21,10 +21,12 @@ const deleteToDo = id => {
 };
 
 // never use mutate state , return new state
+// reducer get state, action && other functions communicate using action
 const reducer = (state = [], action) => {
   switch (action.type) {
     case ADD_TODO:
       const addobj = { text: action.text, id: Date.now() };
+      // reducer return the state of your app
       return [addobj, ...state];
     case DELETE_TODO:
       const cleaned = state.filter(toDo => toDo.id !== action.id);
@@ -36,6 +38,8 @@ const reducer = (state = [], action) => {
 
 const store = createStore(reducer);
 
+// how do we send action to reducer ? ==> using dispatch
+// dispatch will call the reducer with the current state, action that you sent
 const dispatchAddToDo = text => {
   store.dispatch(addToDo(text));
 };
@@ -58,6 +62,7 @@ const paintToDos = () => {
     ul.appendChild(li);
   });
 };
+//want to listen for changes in your store ==> can subscribe to that changes
 store.subscribe(paintToDos);
 
 const onSubmit = e => {
